@@ -2,64 +2,46 @@
 
 ## Project Overview
 
-Healthcare insurance fraud is a major challenge for insurance companies because fraudulent claims can result in financial losses and inefficient use of resources.
+Healthcare insurance fraud is a major challenge for insurance companies. Fraudulent claims can cause financial losses and increase the workload involved in claim verification.
 
-This project uses Machine Learning to identify potentially fraudulent healthcare insurance claims. The project follows a complete machine learning workflow, including data exploration, preprocessing, model building, cross-validation, hyperparameter tuning, model interpretation, error analysis, and final model saving.
+This project uses Machine Learning to identify potentially fraudulent healthcare insurance claims. It follows an end-to-end machine learning workflow, including data exploration, preprocessing, model building, cross-validation, hyperparameter tuning, threshold tuning, model interpretation, error analysis, and model saving.
 
-The main objective is to build a classification model that can identify fraudulent claims while giving special importance to detecting as many fraudulent claims as possible.
+The main objective is to identify potentially fraudulent claims while giving particular importance to detecting as many fraudulent claims as possible.
 
----
+## Project Links
+
+- **GitHub Repository:** https://github.com/adithya736/healthcare-insurance-fraud-detection
+- **Dataset Source:** https://www.kaggle.com/datasets/nudratabbas/healthcare-fraud-detection-dataset
+- **Live Demo (AWS):** To be added after deployment.
 
 ## Problem Statement
 
-The objective of this project is to develop a Machine Learning classification model that predicts whether a healthcare insurance claim is **fraudulent or legitimate**.
+The objective is to develop a Machine Learning classification model that predicts whether a healthcare insurance claim is fraudulent or legitimate.
 
-Since fraudulent claims represent a smaller portion of the dataset, this is an **imbalanced classification problem**. Therefore, accuracy alone is not sufficient for evaluating the model.
-
----
+Since fraudulent claims represent a smaller portion of the dataset, this is an imbalanced classification problem. Therefore, accuracy alone is not sufficient for evaluating model performance.
 
 ## Dataset
 
-The dataset contains **10,000 healthcare insurance claim records** and **21 features**.
+The project uses a healthcare insurance claims dataset downloaded from Kaggle.
 
-The dataset includes information related to:
+- **Records:** 10,000
+- **Features:** 21
+- **Target variable:** `Is_Fraud`
+- **0:** Legitimate
+- **1:** Fraudulent
 
-- Patient details
-- Provider information
-- Diagnosis and procedure codes
-- Claim amounts
-- Insurance type
-- Claim submission details
-- Provider claim frequency
-- Patient visits
-- Length of stay
-- Visit type
-- Claim status
-- Fraud indicators
+The dataset includes patient details, provider information, diagnosis and procedure codes, claim amounts, insurance type, claim submission details, provider claim frequency, and other claim-related information.
 
-### Target Variable
+### Target Distribution
 
-The target variable is:
+| Class | Records | Percentage |
+|---|---:|---:|
+| Legitimate | 9,171 | 91.71% |
+| Fraudulent | 829 | 8.29% |
 
-`Fraud_Label`
-
-It contains two classes:
-
-- `Legitimate`
-- `Fraud`
-
-The dataset contains:
-
-- Legitimate claims: **9,171 (91.71%)**
-- Fraudulent claims: **829 (8.29%)**
-
-Therefore, the dataset is imbalanced.
-
----
+The dataset is imbalanced, with legitimate claims forming the majority class.
 
 ## Project Workflow
-
-The project follows these major steps:
 
 1. Problem Definition
 2. Data Loading and Initial Inspection
@@ -73,11 +55,9 @@ The project follows these major steps:
 10. Error Analysis
 11. Final Model Saving
 
----
-
 ## Exploratory Data Analysis
 
-The dataset was explored to understand its structure, data types, missing values, duplicates, target distribution, and relationships between variables.
+The dataset was explored to understand its structure, data types, missing values, duplicates, target distribution, and feature distributions.
 
 ### Missing Values
 
@@ -87,139 +67,66 @@ Missing values were identified in:
 - `Provider_Specialty`
 - `Prior_Visits_12m`
 
-Each of these columns contained 350 missing values.
+Each column contained 350 missing values.
 
 ### Duplicate Check
 
-No duplicate records were found in the dataset.
-
-### Target Distribution
-
-The target variable was highly imbalanced, with legitimate claims representing the majority of the records and fraudulent claims representing a smaller portion.
+No duplicate records were found.
 
 ### Claim Amount Distribution
 
-The distribution of `Claim_Amount` was positively skewed.
-
-Most claim amounts were concentrated approximately between 200 and 800, while a smaller number of claims had much higher values.
-
-This distribution was considered during the exploratory analysis because unusually high claim amounts may contain useful information for fraud prediction.
-
----
+The `Claim_Amount` distribution was positively skewed. Most claim amounts were concentrated approximately between 200 and 800, while a smaller number of claims had higher values.
 
 ## Data Preprocessing
 
 The following preprocessing steps were performed:
 
-- Missing values were handled.
-- Duplicate records were checked.
-- Numerical and categorical features were identified.
-- Categorical variables were encoded.
-- Numerical features were scaled where required.
-- The data was divided into training and testing sets.
-- Preprocessing components were fitted using the training data to avoid data leakage.
+- Missing-value handling
+- Numerical and categorical feature identification
+- Categorical encoding
+- Numerical scaling
+- Training and testing data separation
+- Prevention of data leakage by fitting preprocessing components on training data
 
-The preprocessing components were saved along with the final model so that the same transformations can be applied to future data.
-
----
+The preprocessing components were saved along with the final model.
 
 ## Model Building
 
-Several classification algorithms were considered for the fraud detection task.
-
-The models included:
+The following classification algorithms were considered:
 
 - Logistic Regression
 - Decision Tree
 - Random Forest
 - Gradient Boosting
 
-The models were evaluated using metrics suitable for an imbalanced classification problem.
+Gradient Boosting was selected as the final model.
 
----
+## Cross-Validation and Hyperparameter Tuning
 
-## Evaluation Metrics
+Cross-validation was used to evaluate model stability across different subsets of the training data.
 
-Since this is an imbalanced classification problem, accuracy alone is not sufficient to evaluate model performance.
+Randomized Search with Cross-Validation was used for hyperparameter tuning, with F1-score as the scoring metric.
 
-The following metrics were used:
-
-### Precision
-
-Precision measures how many claims predicted as fraudulent were actually fraudulent.
-
-### Recall
-
-Recall measures how many of the actual fraudulent claims were correctly detected.
-
-Recall was given particular importance because missing a fraudulent claim can be costly.
-
-### F1-Score
-
-F1-score provides a balance between precision and recall.
-
-It was selected as the primary scoring metric during hyperparameter tuning.
-
-### ROC-AUC
-
-ROC-AUC measures the model's ability to distinguish between fraudulent and legitimate claims.
-
-### Confusion Matrix
-
-The confusion matrix was used to examine correct and incorrect predictions, including false positives and false negatives.
-
----
-
-## Cross-Validation
-
-Cross-validation was performed to evaluate the stability of the Gradient Boosting model across different subsets of the training data.
-
-The following metrics were evaluated:
-
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- ROC-AUC
-
-Cross-validation helped provide a more reliable estimate of model performance than relying on a single training-validation split.
-
----
-
-## Hyperparameter Tuning
-
-Randomized Search with Cross-Validation was used to tune the Gradient Boosting model.
-
-The tuning process used **F1-score** as the scoring metric because the dataset is imbalanced and both precision and recall are important.
-
-The selected Gradient Boosting model used:
+Selected model parameters:
 
 - `learning_rate = 0.05`
 - `max_depth = 4`
 - `n_estimators = 150`
 - `random_state = 42`
 
----
-
 ## Threshold Tuning
 
-The default classification threshold of 0.5 was adjusted to improve the detection of fraudulent claims.
-
-A validation set was used to select a threshold targeting approximately 80% recall.
+The default classification threshold of 0.5 was adjusted to improve fraud detection.
 
 The selected threshold was:
 
 **0.2216527**
 
-This threshold was then applied to the test-set probabilities.
-
-Threshold tuning improved the model's ability to identify fraudulent claims without changing the trained model's hyperparameters.
-
----
+The threshold was selected using validation data and then applied to test-set probabilities.
 
 ## Final Model Performance
 
-Using the threshold-tuned Gradient Boosting model on the test set:
+The final threshold-tuned Gradient Boosting model achieved the following test results:
 
 | Metric | Score |
 |---|---:|
@@ -233,35 +140,16 @@ Using the threshold-tuned Gradient Boosting model on the test set:
 
 | | Predicted Legitimate | Predicted Fraud |
 |---|---:|---:|
-| Actual Legitimate | 1737 | 97 |
+| Actual Legitimate | 1,737 | 97 |
 | Actual Fraud | 33 | 133 |
 
-The model correctly identified **133 out of 166 fraudulent claims**, achieving a recall of **80.12%**.
-
-However, 33 fraudulent claims were missed and 97 legitimate claims were incorrectly flagged as fraudulent.
-
-This shows the trade-off between detecting more fraudulent claims and reducing false fraud alerts.
-
----
-
-## Overfitting Check
-
-The threshold-tuned Gradient Boosting model achieved:
-
-- Training accuracy: **94.09%**
-- Testing accuracy: **93.50%**
-
-The training and testing precision, recall, and F1-score were also reasonably close, with relatively small differences between training and testing performance.
-
-Therefore, the model does not show significant signs of overfitting and demonstrates reasonable generalization to unseen test data.
-
----
+The model correctly identified 133 out of 166 fraudulent claims, achieving 80.12% recall.
 
 ## Model Interpretation
 
-Permutation Feature Importance was used to understand which features contributed most to the tuned Gradient Boosting model's predictions.
+Permutation Feature Importance was used to understand which features contributed most to the model's predictions.
 
-The top features were:
+Top influential features:
 
 | Feature | Importance |
 |---|---:|
@@ -271,50 +159,25 @@ The top features were:
 | Length_of_Stay | 0.006402 |
 | Diagnosis_Code_K21.9 | 0.003702 |
 
-`Days_Between_Service_and_Claim` was the most influential feature, followed by `Claim_Amount` and `Number_of_Claims_Per_Provider_Monthly`.
-
-Permutation importance indicates predictive contribution and does not establish that a feature directly causes healthcare insurance fraud.
-
----
+These values indicate predictive contribution, not direct causation.
 
 ## Error Analysis
 
-The final threshold-tuned model produced the following results:
+The final model produced:
 
-- True Positive (TP): 133
-- True Negative (TN): 1737
-- False Positive (FP): 97
-- False Negative (FN): 33
+- True Positive: 133
+- True Negative: 1,737
+- False Positive: 97
+- False Negative: 33
 
-### Observations
+The results show the trade-off between detecting more fraudulent claims and reducing false fraud alerts. Predictions should be treated as indicators for further human review, not proof of fraud.
 
-- 133 fraudulent claims were correctly identified.
-- 1,737 legitimate claims were correctly classified.
-- 97 legitimate claims were incorrectly classified as fraudulent.
-- 33 fraudulent claims were not detected.
+## Overfitting Check
 
-The results demonstrate the trade-off between increasing fraud detection and reducing false fraud alerts.
+- Training Accuracy: 94.09%
+- Testing Accuracy: 93.50%
 
----
-
-## Final Model Saving
-
-The final trained model and preprocessing components were saved using `joblib`.
-
-The saved model artifact contains:
-
-- Trained Gradient Boosting model
-- Selected classification threshold
-- Encoder
-- Scaler
-- Numerical feature information
-- Categorical feature information
-- Feature column information
-- Imputation values
-
-The saved artifact can be used later for making predictions on new healthcare insurance claim data.
-
----
+The relatively small difference between training and testing accuracy suggests reasonable generalization to unseen data.
 
 ## Technologies Used
 
@@ -327,8 +190,6 @@ The saved artifact can be used later for making predictions on new healthcare in
 - Scikit-learn
 - Joblib
 
----
-
 ## Project Structure
 
 ```text
@@ -339,31 +200,24 @@ Healthcare-Insurance-Fraud-Detection/
 └── .gitignore
 ```
 
-The trained model file is generated locally during the project workflow and is not included in the current GitHub repository.
-
----
+The trained model artifact is generated locally and is not currently included in the GitHub repository.
 
 ## Key Insights
 
-The project showed that:
-
 - Healthcare insurance fraud detection is an imbalanced classification problem.
 - Accuracy alone is not sufficient for evaluating fraud detection models.
-- Recall is particularly important because missing fraudulent claims can be costly.
-- Gradient Boosting provided strong predictive performance for this dataset.
-- Threshold tuning increased fraud detection recall to approximately 80%.
+- Recall is important because missing fraudulent claims can be costly.
+- Gradient Boosting provided strong predictive performance.
+- Threshold tuning increased fraud detection recall to 80.12%.
 - `Days_Between_Service_and_Claim` was the most influential feature according to permutation importance.
-- Error analysis showed that the model still produces both false positives and false negatives, highlighting the practical trade-off involved in fraud detection.
-
----
+- Error analysis highlighted both false positives and false negatives.
 
 ## Conclusion
 
 This project demonstrates an end-to-end Machine Learning approach for healthcare insurance fraud detection.
 
-The final threshold-tuned Gradient Boosting model achieved **80.12% recall** and **97.05% ROC-AUC** on the test set.
+The final threshold-tuned Gradient Boosting model achieved 80.12% recall and 97.05% ROC-AUC on the test set.
 
-The project also included model interpretation and error analysis to understand how the model makes predictions and where it makes mistakes.
+The project demonstrates how Machine Learning can support the identification of potentially fraudulent healthcare insurance claims and help prioritize claims for further investigation.
 
-Overall, the project provides a practical framework for identifying potentially fraudulent healthcare insurance claims using Machine Learning.
-
+**Note:** The model supports claim screening and does not independently establish whether a claim is fraudulent.
